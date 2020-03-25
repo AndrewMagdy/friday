@@ -16,6 +16,10 @@ const CarModel = ({ make, carModels }) => {
     carModelDict[firstChar].push(carModel);
   }
 
+  const handleScroll = firstVisibleLetter => {
+    setCurrLetter(firstVisibleLetter);
+  };
+
   const onChangeLetter = newLetter => {
     setCurrLetter(newLetter);
   };
@@ -23,6 +27,7 @@ const CarModel = ({ make, carModels }) => {
   return (
     <div style={{ backgroundColor: "#F8F6FC" }}>
       <CarList
+        handleScroll={handleScroll}
         handleClick={id => history.push(`/car/${make}/${id}`)}
         carMap={carModelDict}
       ></CarList>

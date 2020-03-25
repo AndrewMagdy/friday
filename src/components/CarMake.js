@@ -16,6 +16,10 @@ const CarMake = ({ carMakes }) => {
     carMakeDict[firstChar].push(carMake);
   }
 
+  const handleScroll = firstVisibleLetter => {
+    setCurrLetter(firstVisibleLetter);
+  };
+
   const onChangeLetter = newLetter => {
     const el = document.getElementById(`${newLetter}Anchor`);
     el.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -25,6 +29,7 @@ const CarMake = ({ carMakes }) => {
   return (
     <div style={{ backgroundColor: "#F8F6FC" }}>
       <CarList
+        handleScroll={handleScroll}
         handleClick={id => history.push(`/models/${id}`)}
         carMap={carMakeDict}
       ></CarList>

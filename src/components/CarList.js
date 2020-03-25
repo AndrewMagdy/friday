@@ -1,6 +1,37 @@
-import React from "react";
+import React, { useEffect, useCallback } from "react";
+import { throttle } from "lodash";
 
-const CarList = ({ handleClick, carMap }) => {
+const CarList = ({ handleScroll, handleClick, carMap }) => {
+  const onScroll = useCallback(() => {
+    // https://stackoverflow.com/questions/487073/how-to-check-if-element-is-visible-after-scrolling
+    const isScrolledIntoView = el => {
+      var rect = el.getBoundingClientRect();
+      var elemTop = rect.top;
+      var elemBottom = rect.bottom;
+
+      // Only completely visible elements return true:
+      var isVisible = elemTop >= 0 && elemBottom <= window.innerHeight;
+      // Partially visible elements return true:
+      //isVisible = elemTop < window.innerHeight && elemBottom >= 0;
+      return isVisible;
+    };
+    for (let key in carMap) {
+      const el = document.getElementById(`${key}Anchor`);
+      if (!el) {
+        return;
+      }
+      if (isScrolledIntoView(el)) {
+        handleScroll(key);
+        break;
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", throttle(onScroll, 50));
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [onScroll]);
+
   return (
     <div
       style={{
