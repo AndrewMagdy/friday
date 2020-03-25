@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getRegVehicleAPI = (make, model) => {
+export const getRegVehiclesAPI = (make, model) => {
   return axios
     .get(`${process.env.REACT_APP_API_END_POINT}/vehicles`, {
       params: { make, model }

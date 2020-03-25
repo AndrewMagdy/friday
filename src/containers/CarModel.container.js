@@ -13,10 +13,10 @@ const CarMakeContainer = () => {
     dispatch(getCarModelsRequest(make));
   }, []);
 
-  if (!carModels) {
+  if (!carModels || !carModels.length) {
     return <div> Not Found</div>;
   }
-  return <CarModel carModels={carModels} />;
+  return <CarModel make={make} carModels={carModels} />;
 };
 
 export default CarMakeContainer;

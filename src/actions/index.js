@@ -32,3 +32,24 @@ export const getCarModelsFail = error => ({
   type: GET_CAR_MODELS_FAIL,
   error
 });
+
+
+export const GET_REG_VEHICLES_REQUEST = "GET_REG_VEHICLES_REQUEST";
+export const GET_REG_VEHICLES_SUCCESS = "GET_REG_VEHICLES_SUCCESS";
+export const GET_REG_VEHICLES_FAIL = "GET_REG_VEHICLES_FAIL";
+
+export const getALLRegVehiclesRequest = (carMakeID, carModelID) => ({
+  type: GET_REG_VEHICLES_REQUEST,
+  carMakeID,
+  carModelID
+});
+
+export const getAllRegVehiclesSuccess = payload => ({
+  type: GET_REG_VEHICLES_SUCCESS,
+  payload
+});
+
+export const getAllRegVehiclesFail = error => ({
+  type: GET_REG_VEHICLES_FAIL,
+  error
+});

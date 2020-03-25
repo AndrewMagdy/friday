@@ -12,6 +12,10 @@ const CarMakeContainer = () => {
     dispatch(getCarMakesRequest());
   }, []);
 
+  if (!carMakes || !carMakes.length) {
+    return <div> Not Found</div>;
+  }
+
   return <CarMake carMakes={carMakes} />;
 };
 

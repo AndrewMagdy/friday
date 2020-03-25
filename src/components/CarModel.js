@@ -3,7 +3,7 @@ import AlphabetList from "./AlphabetList";
 import CarList from "./CarList";
 import { useHistory } from "react-router-dom";
 
-const CarModel = ({ carModels }) => {
+const CarModel = ({ make, carModels }) => {
   const history = useHistory();
   const [currLetter, setCurrLetter] = useState("A");
   const carModelDict = {};
@@ -23,7 +23,7 @@ const CarModel = ({ carModels }) => {
   return (
     <div style={{ backgroundColor: "#F8F6FC" }}>
       <CarList
-        handleClick={id => history.push(`/car/${id}`)}
+        handleClick={id => history.push(`/car/${make}/${id}`)}
         carMap={carModelDict}
       ></CarList>
 
