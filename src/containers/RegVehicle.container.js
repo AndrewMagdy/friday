@@ -8,13 +8,19 @@ const RegVehicleContainer = () => {
   const dispatch = useDispatch();
   const { make, model } = useParams();
 
-  const regVehicles = useSelector(
-    ({ regVehicle }) => regVehicle.regVehicles[`${make}_${model}`]
-  );
+  const { regVehicles, isFetching } = useSelector(({ regVehicle }) => ({
+    regVehicles: regVehicle.regVehicles[`${make}_${model}`],
+    isFetching: regVehicle.isFetching
+  }));
 
   useEffect(() => {
     dispatch(getALLRegVehiclesRequest(make, model));
   }, []);
+
+
+  if (isFetching) {
+    return <div> Loading </div>;
+  }
 
   if (!regVehicles || !regVehicles.length) {
     return <div> Not Found</div>;

@@ -6,11 +6,18 @@ import CarMake from "../components/CarMake";
 
 const CarMakeContainer = () => {
   const dispatch = useDispatch();
-  const carMakes = useSelector(({ carMake }) => carMake.carMakes);
+  const { carMakes, isFetching } = useSelector(({ carMake }) => ({
+    carMakes: carMake.carMakes,
+    isFetching: carMake.isFetching
+  }));
 
   useEffect(() => {
     dispatch(getCarMakesRequest());
   }, []);
+
+  if (isFetching) {
+    return <div> Loading </div>;
+  }
 
   if (!carMakes || !carMakes.length) {
     return <div> Not Found</div>;

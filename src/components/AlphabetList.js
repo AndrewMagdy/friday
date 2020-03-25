@@ -42,6 +42,7 @@ const AlphabetList = ({ letters, currLetter, onChangeLetter }) => {
     >
       {letters.map(letter => (
         <div
+          key={letter}
           onClick={() => {
             onChangeLetter(letter);
           }}

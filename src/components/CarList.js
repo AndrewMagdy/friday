@@ -1,5 +1,4 @@
 import React, { useEffect, useCallback } from "react";
-import { throttle } from "lodash";
 
 const CarList = ({ handleScroll, handleClick, carMap }) => {
   const onScroll = useCallback(() => {
@@ -25,10 +24,10 @@ const CarList = ({ handleScroll, handleClick, carMap }) => {
         break;
       }
     }
-  }, []);
+  });
 
   useEffect(() => {
-    window.addEventListener("scroll", throttle(onScroll, 50));
+    window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, [onScroll]);
 
@@ -42,7 +41,7 @@ const CarList = ({ handleScroll, handleClick, carMap }) => {
       }}
     >
       {Object.keys(carMap).map(letter => (
-        <div>
+        <div key={letter}>
           <div
             style={{
               display: "flex",
@@ -57,6 +56,7 @@ const CarList = ({ handleScroll, handleClick, carMap }) => {
           </div>
           {carMap[letter].map(car => (
             <button
+              key={car}
               onClick={() => handleClick(car)}
               style={{
                 display: "flex",

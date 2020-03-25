@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AlphabetList from "./AlphabetList";
 import CarList from "./CarList";
 import { useHistory } from "react-router-dom";
+import { throttle } from "lodash";
 
 const CarModel = ({ make, carModels }) => {
   const history = useHistory();
@@ -16,9 +17,10 @@ const CarModel = ({ make, carModels }) => {
     carModelDict[firstChar].push(carModel);
   }
 
-  const handleScroll = firstVisibleLetter => {
+  const handleScroll = throttle(firstVisibleLetter => {
     setCurrLetter(firstVisibleLetter);
-  };
+  }, 50);
+
 
   const onChangeLetter = newLetter => {
     setCurrLetter(newLetter);
