@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import AlphabetList from "./AlphabetList";
 import CarList from "./CarList";
-import { throttle } from "lodash";
+
+const containerStyle = { backgroundColor: "#F8F6FC" };
 
 const CarMake = ({ carMakes }) => {
   const history = useHistory();
   const [currLetter, setCurrLetter] = useState("A");
+  const isScrubbing = useRef(false);
   const carMakeDict = {};
 
   for (let carMake of carMakes) {
@@ -17,9 +19,11 @@ const CarMake = ({ carMakes }) => {
     carMakeDict[firstChar].push(carMake);
   }
 
-  const handleScroll = throttle(firstVisibleLetter => {
-    setCurrLetter(firstVisibleLetter);
-  }, 50);
+  const handleScroll = firstVisibleLetter => {
+    if (!isScrubbing.current) {
+      setCurrLetter(firstVisibleLetter);
+    }
+  };
 
   const onChangeLetter = newLetter => {
     const el = document.getElementById(`${newLetter}Anchor`);
@@ -28,7 +32,7 @@ const CarMake = ({ carMakes }) => {
   };
 
   return (
-    <div style={{ backgroundColor: "#F8F6FC" }}>
+    <div style={containerStyle}>
       <CarList
         handleScroll={handleScroll}
         handleClick={id => history.push(`/models/${id}`)}
@@ -38,6 +42,14 @@ const CarMake = ({ carMakes }) => {
         letters={Object.keys(carMakeDict)}
         currLetter={currLetter}
         onChangeLetter={onChangeLetter}
+        handleTouchStart={() => {
+          isScrubbing.current = true;
+        }}
+        handleTouchEnd={() => {
+          setTimeout(() => {
+            isScrubbing.current = false;
+          }, 100);
+        }}
       />
     </div>
   );

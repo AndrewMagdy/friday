@@ -1,4 +1,33 @@
 import React, { useEffect, useCallback } from "react";
+import { debounce } from "lodash";
+
+const containerStyle = {
+  display: "flex",
+  flexDirection: "column",
+  width: "100%",
+  alignItems: "center"
+};
+
+const letterHeaderStyle = {
+  display: "flex",
+  flexDirection: "column",
+  width: "100%",
+  alignItems: "center",
+  padding: "2%"
+};
+
+const buttonStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-start",
+  height: "10vh",
+  width: "50vw",
+  border: "1px solid #D7D6DA",
+  backgroundColor: "#fff",
+  cursor: "pointer"
+};
+
+const labelStyle = { fontSize: "16px", fontWeight: 400 };
 
 const CarList = ({ handleScroll, handleClick, carMap }) => {
   const onScroll = useCallback(() => {
@@ -27,49 +56,25 @@ const CarList = ({ handleScroll, handleClick, carMap }) => {
   });
 
   useEffect(() => {
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [onScroll]);
+    const debouncedFunc = debounce(onScroll, 50);
+    window.addEventListener("scroll", debouncedFunc);
+    return () => window.removeEventListener("scroll", debouncedFunc);
+  }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        alignItems: "center"
-      }}
-    >
+    <div style={containerStyle}>
       {Object.keys(carMap).map(letter => (
         <div key={letter}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              width: "100%",
-              alignItems: "center",
-              padding: "2%"
-            }}
-            id={`${letter}Anchor`}
-          >
+          <div style={letterHeaderStyle} id={`${letter}Anchor`}>
             {letter}
           </div>
           {carMap[letter].map(car => (
             <button
               key={car}
               onClick={() => handleClick(car)}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-start",
-                height: "10vh",
-                width: "50vw",
-                border: "1px solid #D7D6DA",
-                backgroundColor: "#fff",
-                cursor: "pointer"
-              }}
+              style={buttonStyle}
             >
-              <label style={{ fontSize: "16px", fontWeight: 400 }}>{car}</label>
+              <label style={labelStyle}>{car}</label>
             </button>
           ))}
         </div>
